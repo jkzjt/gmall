@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gmall.cart.mapper.CartInfoMapper">
+
+    <resultMap id="baseResultMap" type="com.gmall.bean.CartInfo" autoMapping="true">
+        <id property="id" column="id"></id>
+    </resultMap>
+
+    <!--List<CartInfo> selectCartListWithCurPrice(String userId);-->
+    <select id="selectCartListWithCurPrice" resultMap="baseResultMap">
+
+        SELECT
+            ci.*,
+            si.price sku_price
+        FROM
+            cart_info ci
+        LEFT JOIN sku_info si ON
+            ci.sku_id = si.id
+        WHERE
+            ci.user_id = #{userId}
+        ORDER BY ci.id DESC;
+
+    </select>
+
+</mapper>

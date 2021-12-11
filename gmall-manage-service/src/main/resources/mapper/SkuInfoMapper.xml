@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gmall.manage.mapper.SkuInfoMapper">
+
+    <!-- baseResultMap -->
+    <resultMap id="baseResultMap" type="com.gmall.bean.SkuInfo" autoMapping="true">
+        <id property="id" column="id"></id>
+    </resultMap>
+
+    <!-- imgResultMap -->
+    <resultMap id="imgResultMap" type="com.gmall.bean.SkuInfo" autoMapping="true" extends="baseResultMap">
+        <collection property="skuImageList" ofType="com.gmall.bean.SkuImage" autoMapping="true">
+            <id property="id" column="skuImgId"></id>
+            <result property="skuId" column="id"></result>
+        </collection>
+    </resultMap>
+
+    <!-- saleAttrValueResultMap -->
+    <resultMap id="saleAttrValueResultMap" type="com.gmall.bean.SkuInfo" extends="baseResultMap" autoMapping="true">
+        <collection property="skuSaleAttrValueList" ofType="com.gmall.bean.SkuSaleAttrValue" autoMapping="true">
+            <id property="id" column="skuSaleAttrValueId"></id>
+        </collection>
+    </resultMap>
+
+    <!-- SkuInfo selectByPK(String skuId); -->
+    <select id="selectByPK" resultMap="imgResultMap">
+
+        SELECT
+            si.id ,
+            si.spu_id ,
+            si.price ,
+            si.sku_name ,
+            si.sku_desc ,
+            si.weight ,
+            si.tm_id ,
+            si.catalog3_id ,
+            si.sku_default_img ,
+            si2.id sku_img_id ,
+            si2.img_name ,
+            si2.img_url ,
+            si2.spu_img_id ,
+            si2.is_default
+        FROM
+            sku_info si
+        RIGHT JOIN sku_image si2 ON
+            si.id = si2.sku_id
+        WHERE
+            si.id = #{skuId};
+
+    </select>
+
+    <!-- List<SkuInfo> selectBySpuId(String spuId); -->
+    <select id="selectBySpuId" resultMap="saleAttrValueResultMap">
+
+        SELECT
+            si.id ,
+            ssav.sale_attr_value_id
+        FROM
+            sku_info si
+        INNER JOIN sku_sale_attr_value ssav ON
+            si.id = ssav.sku_id
+        WHERE
+            si.spu_id = #{spuId}
+        GROUP BY
+            si.id,
+            ssav.sale_attr_value_id ;
+
+    </select>
+
+</mapper>
