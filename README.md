@@ -3,3 +3,4 @@
   
 # Gamll Architecture
 
+![gmall-architecture](https://user-images.githubusercontent.com/48128903/223688564-814b56e3-f70a-4922-bb6f-0b1628df0052.png)
