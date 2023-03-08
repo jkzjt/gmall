@@ -17,3 +17,5 @@
 - [ActiveMQ](https://activemq.apache.org/)
 - [SpringTask](https://spring.io/guides/gs/scheduling-tasks/)
 - [JWT](https://jwt.io/)
+- [Maven](https://maven.apache.org/)
+- [MySQL](https://www.mysql.com/)
